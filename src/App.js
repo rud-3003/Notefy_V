@@ -3,6 +3,8 @@ import Notefy from "./Components/Notefy";
 import Home from "./Components/Home";
 import About from "./Components/About";
 import NavBar from "./Components/NavBar";
+import AddNote from "./Components/AddNote";
+// import SideBar from "./Components/SideBar";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -34,6 +36,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login showAlert={showAlert} />} />
               <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
+              <Route path="/addnote" element={<AddNote showAlert={showAlert} />} />
             </Routes>
           </div>
         </BrowserRouter>

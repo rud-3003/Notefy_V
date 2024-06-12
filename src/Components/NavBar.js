@@ -23,6 +23,9 @@ export default function NavBar() {
             <li className="nav-item">
               <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about">About</Link>
             </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${location.pathname === "/addnote" ? "active" : ""}`} to="/addnote">Add Note</Link>
+            </li>
           </ul>
           {!localStorage.getItem('token')?
           <div className="d-flex my-1 mx-1" role="search">

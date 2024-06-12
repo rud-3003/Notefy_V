@@ -1,10 +1,25 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import NoteContext from '../Context/notes/NoteContext';
 import NoteItem from './NoteItem';
-import AddNote from './AddNote';
-import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import { Link, useNavigate } from 'react-router-dom';
+import 'react-quill/dist/quill.snow.css'
 
 export default function Notes(props) {
+    var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+    ['link', 'formula'],
+
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  
+    ['clean'] ]
+        const module = {
+            toolbar: toolbarOptions,
+        };
     const context = useContext(NoteContext);
     const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile:"" });
     let navigate = useNavigate();
@@ -33,6 +48,10 @@ export default function Notes(props) {
         setNote({ ...note, [e.target.name]: e.target.value });
     }
 
+    const onChangeDes = (e)=>{
+        setNote({...note, edescription : e})
+    }
+
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
         if (file && file.size <= 5 * 1024 * 1024) { // 5 MB limit
@@ -48,7 +67,8 @@ export default function Notes(props) {
 
     return (
         <>
-            <AddNote showAlert={props.showAlert} />
+            {/* <Link type="btn" className="btn btn-primary" to="/addnote">Add Note</Link> */}
+            {/* <AddNote showAlert={props.showAlert} /> */}
 
             <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
@@ -69,7 +89,7 @@ export default function Notes(props) {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="edescription" className="form-label">Description</label>
-                                    <input type="text" className="form-control" id="edescription" value={note.edescription} name="edescription" onChange={onChange} minLength={5} required />
+                                    <ReactQuill theme="snow" id="edescription" modules={module} minLength={5} onChange={onChangeDes} value={note.edescription} />
                                 </div>
                                 <div className="input-group mb-3">
                                     <label className="input-group-text-1 mx-2 my-1">Upload</label>

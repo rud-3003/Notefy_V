@@ -1,7 +1,23 @@
 import React, { useContext, useState } from 'react'
-import NoteContext from '../Context/notes/NoteContext'
+import ReactQuill from 'react-quill';
+import NoteContext from '../Context/notes/NoteContext';
+import 'react-quill/dist/quill.snow.css'
 
 export default function AddNote(props) {
+    var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
+    ['link', 'formula'],
+
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  
+    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  
+    ['clean'] ]
+    const module = {
+        toolbar: toolbarOptions,
+    };
     const context = useContext(NoteContext);
     const {addNote} = context;
     const [note, setNote] = useState({title:"", description:"", tag:"default", myFile:""})
@@ -15,6 +31,10 @@ export default function AddNote(props) {
 
     const onChange = (e)=>{
         setNote({...note, [e.target.name]: e.target.value})
+    }
+    
+    const onChangeDes = (e)=>{
+        setNote({...note, description : e})
     }
 
     const handleFileUpload = async (e) => {
@@ -37,7 +57,9 @@ export default function AddNote(props) {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" onChange={onChange} minLength={5} required value={note.description}/>
+                    {/* <input type="text" className="form-control" id="description" name="description" onChange={onChange} minLength={5} required value={note.description}/> */}
+                    <ReactQuill theme="snow" id="description" modules={module} minLength={5} onChange={onChangeDes} value={note.description} />
+                    {console.log(note.description)}
                 </div>
                 {/* <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
@@ -47,7 +69,7 @@ export default function AddNote(props) {
                         <label className="input-group-text-1 mx-2 my-1">Upload</label>
                         <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
                 </div>
-                <button disabled={note.title.length<5 || note.description.length<5} type="submit" className="btn btn-primary" onClick={handleClick}>Add Note</button>
+                <button disabled={note.title.length<5 } type="submit" className="btn btn-primary" onClick={handleClick}>Add Note</button>
             </form>
         </div>
     )
