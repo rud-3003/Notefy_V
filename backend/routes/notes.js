@@ -32,7 +32,7 @@ router.post("/addnote", fetchuser, [
         }
 
         const note = new Note({
-            title, description, tag, myFile, user: req.user.id
+            title, description, tag, myFile, date:Date(), user: req.user.id
         })
         const savedNote = await note.save();
         res.json(savedNote);
@@ -50,10 +50,11 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     try {
         // Create a new Note Object
         const newNote = {};
+        if (title) { newNote.date = Date() };
         if (title) { newNote.title = title };
         if (description) { newNote.description = description };
         if (tag) { newNote.tag = tag };
-        if (tag) { newNote.myFile = myFile };
+        if (myFile) { newNote.myFile = myFile };
 
         // Find the node to be updated and update it
         let note = await Note.findById(req.params.id);
