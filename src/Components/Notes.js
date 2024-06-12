@@ -7,21 +7,21 @@ import 'react-quill/dist/quill.snow.css'
 
 export default function Notes(props) {
     var toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-    ['link', 'formula'],
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+        ['link', 'formula'],
 
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-  
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  
-    ['clean'] ]
-        const module = {
-            toolbar: toolbarOptions,
-        };
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+
+        ['clean']]
+    const module = {
+        toolbar: toolbarOptions,
+    };
     const context = useContext(NoteContext);
-    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile:"" });
+    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile: "" });
     let navigate = useNavigate();
 
     const { notes, getNotes, editNote } = context;
@@ -48,8 +48,8 @@ export default function Notes(props) {
         setNote({ ...note, [e.target.name]: e.target.value });
     }
 
-    const onChangeDes = (e)=>{
-        setNote({...note, edescription : e})
+    const onChangeDes = (e) => {
+        setNote({ ...note, edescription: e })
     }
 
     const handleFileUpload = async (e) => {
@@ -90,6 +90,10 @@ export default function Notes(props) {
                                 <div className="mb-3">
                                     <label htmlFor="edescription" className="form-label">Description</label>
                                     <ReactQuill theme="snow" id="edescription" modules={module} minLength={5} onChange={onChangeDes} value={note.edescription} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="tag" className="form-label">Tag</label>
+                                    <input type="text" className="form-control" id="etag" name="etag" onChange={onChange} minLength={3} required value={note.etag} />
                                 </div>
                                 <div className="input-group mb-3">
                                     <label className="input-group-text-1 mx-2 my-1">Upload</label>

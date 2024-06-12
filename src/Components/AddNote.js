@@ -61,10 +61,10 @@ export default function AddNote(props) {
                     <ReactQuill theme="snow" id="description" modules={module} minLength={5} onChange={onChangeDes} value={note.description} />
                     {console.log(note.description)}
                 </div>
-                {/* <div className="mb-3">
+                <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
                     <input type="text" className="form-control" id="tag" name="tag" onChange={onChange} minLength={3} required value={note.tag}/>
-                </div> */}
+                </div>
                 <div className="input-group mb-3">
                         <label className="input-group-text-1 mx-2 my-1">Upload</label>
                         <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
