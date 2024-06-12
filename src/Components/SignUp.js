@@ -13,17 +13,6 @@ export default function SignUp(props) {
     const [cpassword, setCpassword] = useState('');
     const [myFile, setMyFile] = useState('');
 
-
-    const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
-        if (file && file.size <= 5 * 1024 * 1024) { // 5 MB limit
-            const base64 = await convertToBase64(file);
-            setMyFile(base64);
-        } else {
-            alert("File size should be less than 5 MB");
-        }
-    }
-
     async function submit(e) {
         e.preventDefault();
 
@@ -74,10 +63,6 @@ export default function SignUp(props) {
                         <label htmlFor="cpassword" className="form-label me-2">Confirm Password</label>
                         <input type="password" id="cpassword" className="form-control ip" value={cpassword} onChange={(e) => setCpassword(e.target.value)} aria-describedby="passwordHelpBlock" placeholder="Confirm Password" minLength={5} required />
                     </div>
-                    {/* <div className="input-group mb-3">
-                        <label className="input-group-text-1 mx-2 my-1">Upload</label>
-                        <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
-                    </div> */}
                     <div className="SignUpBtn text-center">
                         <button disabled={password!==cpassword} type="submit" className="SUbtn btn-primary">Sign Up</button>
                     </div>
@@ -85,17 +70,4 @@ export default function SignUp(props) {
             </div>
         </div>
     );
-}
-
-function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
 }

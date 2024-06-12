@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import NoteContext from '../Context/notes/NoteContext';
+import defaultimg from './iphone_notes.png';
 
 export default function NoteItem(props) {
     const context = useContext(NoteContext);
@@ -8,7 +9,7 @@ export default function NoteItem(props) {
     return (
         <div className='col-md-3'>
             <div className="card text-center my-1" >
-                {/* <img src="..." className="card-img-top" alt="..."/> */}
+                <img src={note.myFile===""?defaultimg:note.myFile} className="card-img-top" alt="..." height={200} width={300} />
                     <div className="card-body">
                         <h5 className="card-title">{note.title}</h5>
                         <p className="card-text">{note.description}</p>

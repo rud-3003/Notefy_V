@@ -4,16 +4,29 @@ import NoteContext from '../Context/notes/NoteContext'
 export default function AddNote(props) {
     const context = useContext(NoteContext);
     const {addNote} = context;
-    const [note, setNote] = useState({title:"", description:"", tag:"default"})
+    const [note, setNote] = useState({title:"", description:"", tag:"default", myFile:""})
+    
     const handleClick = (e)=>{
         e.preventDefault();
-        addNote(note.title, note.description, note.tag);
-        setNote({title:"", description:"", tag:""});
+        addNote(note.title, note.description, note.tag, note.myFile);
+        setNote({title:"", description:"", tag:"", myFile:""});
         props.showAlert("Added Successfully", "success");
     }
+
     const onChange = (e)=>{
         setNote({...note, [e.target.name]: e.target.value})
     }
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (file && file.size <= 5 * 1024 * 1024) { // 5 MB limit
+            const base64 = await convertToBase64(file);
+            setNote({...note, myFile: base64});
+        } else {
+            alert("File size should be less than 5 MB");
+        }
+    }
+
     return (
         <div className="container my-3">
             <h1>Add a Note</h1>
@@ -30,8 +43,24 @@ export default function AddNote(props) {
                     <label htmlFor="tag" className="form-label">Tag</label>
                     <input type="text" className="form-control" id="tag" name="tag" onChange={onChange} minLength={3} required value={note.tag}/>
                 </div> */}
+                <div className="input-group mb-3">
+                        <label className="input-group-text-1 mx-2 my-1">Upload</label>
+                        <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
+                </div>
                 <button disabled={note.title.length<5 || note.description.length<5} type="submit" className="btn btn-primary" onClick={handleClick}>Add Note</button>
             </form>
         </div>
     )
+}
+function convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+            reject(error);
+        };
+    });
 }

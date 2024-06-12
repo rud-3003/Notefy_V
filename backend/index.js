@@ -1,11 +1,15 @@
 const connectToMongo = require('./db');
 const express = require("express")
+const bodyParser = require('body-parser');
+
 var cors = require("cors")
 
 connectToMongo();
 const app = express()
 const port = 8000
 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors())
 app.use(express.json())
 
