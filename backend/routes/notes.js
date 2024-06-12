@@ -73,7 +73,7 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
 })
 
 // Route 4
-// Delete existing node using DELETE "/api/notes/deletenote"
+// Delete existing note using DELETE "/api/notes/deletenote"
 router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     try {
         // Find the node to be deleted and delete it
@@ -93,5 +93,22 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     }
 })
 
+// Route 5
+// Search for a note using GET "/api/notes/getnote"
+router.get("/searchnotes/:key", fetchuser, async (req, res) => {
+    try {
+        const notes = await Note.find(
+            {
+                "$or":[
+                    {"tag":{$regex:req.params.key}}
+                ]
+            }
+        );
+        res.json(notes);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Some error occured");
+    }
+})
 
 module.exports = router

@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useContext, useState } from 'react';
+import NoteContext from '../Context/notes/NoteContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
   let location = useLocation();
   let navigate = useNavigate();
-  const handleLogOut=()=>{
+  const context = useContext(NoteContext);
+  const { searchNotes } = context;
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault(); // Prevent form submission
+    try {
+      console.log('Searching for:', searchTerm); // Debugging statement
+      await searchNotes(searchTerm);
+    } catch (error) {
+      console.error('Error during search:', error); // Debugging statement
+    }
+  };
+
+  const handleLogOut = () => {
     localStorage.removeItem('token');
     navigate("/login");
-  }
+  };
+
   return (
     <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -27,17 +48,24 @@ export default function NavBar() {
               <Link className={`nav-link ${location.pathname === "/addnote" ? "active" : ""}`} to="/addnote">Add Note</Link>
             </li>
           </ul>
-          {!localStorage.getItem('token')?
-          <div className="d-flex my-1 mx-1" role="search">
-            <Link to="/login">
-              <button className="SUbtn btn-dark">LogIn</button>
-            </Link>
-            <Link to="/signup">
-              <button className="SUbtn btn-dark ">SignUp</button>
-            </Link>
-          </div>:<button className="SUbtn btn-dark" onClick={handleLogOut}>Log Out</button>}
+          {location.pathname === "/home" ? <div className="d-flex align-items-center" role="search" onSubmit={handleSearch}>
+            <input className="form-control me-2" type="search" placeholder="Search for tags" aria-label="Search" value={searchTerm} onChange={handleSearchChange} />
+            <button className="btn btn-outline-light mx-1" >Search</button>
+          </div> : <></>}
+          {!localStorage.getItem('token') ?
+            <div className="d-flex my-1 mx-1" role="login">
+              <Link to="/login">
+                <button className="btn btn-outline-light mx-1">LogIn</button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn btn-outline-light mx-1">SignUp</button>
+              </Link>
+            </div> :
+            <div>
+              <button className="btn btn-outline-light mx-1" onClick={handleLogOut}>Log Out</button>
+            </div>}
         </div>
       </div>
     </nav>
-  )
+  );
 }
