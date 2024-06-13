@@ -30,14 +30,10 @@ export default function Notes(props) {
 
     useEffect(() => {
         async function fetchData() {
-            if (localStorage.getItem('token')) {
-                if (searchTerm.trim() === "") {
-                    await getNotes();
-                } else {
-                    await searchNotes(searchTerm);
-                }
+            if (searchTerm.trim() === "") {
+                await getNotes();
             } else {
-                navigate("/login");
+                await searchNotes(searchTerm);
             }
         }
         fetchData();
@@ -130,15 +126,15 @@ export default function Notes(props) {
             </div>
             <div className="row my-3">
                 <h1>Your Notes</h1>
-                <Search 
-                    searchTerm={searchTerm} 
-                    handleSearchChange={handleSearchChange} 
-                    handleSearch={handleSearch} 
+                <Search
+                    searchTerm={searchTerm}
+                    handleSearchChange={handleSearchChange}
+                    handleSearch={handleSearch}
                 />
                 <div className="container">
                     {notes.length === 0 && "No Notes to display"}
                 </div>
-                
+
                 {notes.map((note) => {
                     return <NoteItem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note} />;
                 })}
