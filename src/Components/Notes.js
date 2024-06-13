@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import NoteContext from '../Context/notes/NoteContext';
 import NoteItem from './NoteItem';
 import ReactQuill from 'react-quill';
-import { Link, useNavigate } from 'react-router-dom';
-import 'react-quill/dist/quill.snow.css'
+import Search from './Search';
+import { useNavigate } from 'react-router-dom';
+import 'react-quill/dist/quill.snow.css';
 
 export default function Notes(props) {
     var toolbarOptions = [
@@ -16,22 +17,31 @@ export default function Notes(props) {
 
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
 
-        ['clean']]
-    const module = {
+        ['clean']];
+    const modules = {
         toolbar: toolbarOptions,
     };
     const context = useContext(NoteContext);
     const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile: "" });
+    const [searchTerm, setSearchTerm] = useState('');
     let navigate = useNavigate();
 
-    const { notes, getNotes, editNote } = context;
+    const { notes, getNotes, editNote, searchNotes } = context;
+
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            getNotes();
-        } else {
-            navigate("/login");
+        async function fetchData() {
+            if (localStorage.getItem('token')) {
+                if (searchTerm.trim() === "") {
+                    await getNotes();
+                } else {
+                    await searchNotes(searchTerm);
+                }
+            } else {
+                navigate("/login");
+            }
         }
-    }, [navigate, getNotes]);
+        fetchData();
+    }, [navigate, getNotes, searchNotes, searchTerm]);
 
     const updateNote = (currentNote) => {
         ref.current.click();
@@ -49,27 +59,37 @@ export default function Notes(props) {
     }
 
     const onChangeDes = (e) => {
-        setNote({ ...note, edescription: e })
+        setNote({ ...note, edescription: e });
     }
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
-        if (file && file.size <= 5 * 1024 * 1024) { // 5 MB limit
-            const base64 = await convertToBase64(file);
-            setNote({ ...note, emyFile: base64 });
-        } else {
-            alert("File size should be less than 5 MB");
+        const base64 = await convertToBase64(file);
+        setNote({ ...note, emyFile: base64 });
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            if (searchTerm.trim() === "") {
+                await getNotes();
+            } else {
+                await searchNotes(searchTerm);
+            }
+        } catch (error) {
+            console.error('Error during search:', error);
         }
-    }
+    };
 
     const ref = useRef(null);
     const refClose = useRef(null);
 
     return (
         <>
-            {/* <Link type="btn" className="btn btn-primary" to="/addnote">Add Note</Link> */}
-            {/* <AddNote showAlert={props.showAlert} /> */}
-
             <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
             </button>
@@ -78,7 +98,7 @@ export default function Notes(props) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Edit Note</h1>
+                            <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
@@ -89,10 +109,10 @@ export default function Notes(props) {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="edescription" className="form-label">Description</label>
-                                    <ReactQuill theme="snow" id="edescription" modules={module} minLength={5} onChange={onChangeDes} value={note.edescription} />
+                                    <ReactQuill theme="snow" id="edescription" modules={modules} minLength={5} onChange={onChangeDes} value={note.edescription} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="tag" className="form-label">Tag</label>
+                                    <label htmlFor="etag" className="form-label">Tag</label>
                                     <input type="text" className="form-control" id="etag" name="etag" onChange={onChange} minLength={3} required value={note.etag} />
                                 </div>
                                 <div className="input-group mb-3">
@@ -110,9 +130,15 @@ export default function Notes(props) {
             </div>
             <div className="row my-3">
                 <h1>Your Notes</h1>
+                <Search 
+                    searchTerm={searchTerm} 
+                    handleSearchChange={handleSearchChange} 
+                    handleSearch={handleSearch} 
+                />
                 <div className="container">
                     {notes.length === 0 && "No Notes to display"}
                 </div>
+                
                 {notes.map((note) => {
                     return <NoteItem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note} />;
                 })}

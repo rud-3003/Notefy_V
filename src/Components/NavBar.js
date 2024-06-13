@@ -1,28 +1,8 @@
-import React, { useContext, useState } from 'react';
-import NoteContext from '../Context/notes/NoteContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
   let location = useLocation();
   let navigate = useNavigate();
-  const context = useContext(NoteContext);
-  const { searchNotes } = context;
-
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSearch = async (e) => {
-    e.preventDefault(); // Prevent form submission
-    try {
-      console.log('Searching for:', searchTerm); // Debugging statement
-      await searchNotes(searchTerm);
-    } catch (error) {
-      console.error('Error during search:', error); // Debugging statement
-    }
-  };
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
@@ -48,11 +28,8 @@ export default function NavBar() {
               <Link className={`nav-link ${location.pathname === "/addnote" ? "active" : ""}`} to="/addnote">Add Note</Link>
             </li>
           </ul>
-          {location.pathname === "/home" ? <div className="d-flex align-items-center" role="search" onSubmit={handleSearch}>
-            <input className="form-control me-2" type="search" placeholder="Search for tags" aria-label="Search" value={searchTerm} onChange={handleSearchChange} />
-            <button className="btn btn-outline-light mx-1" >Search</button>
-          </div> : <></>}
-          {!localStorage.getItem('token') ?
+          {!localStorage.getItem('token') ? (
+            // eslint-disable-next-line
             <div className="d-flex my-1 mx-1" role="login">
               <Link to="/login">
                 <button className="btn btn-outline-light mx-1">LogIn</button>
@@ -60,10 +37,12 @@ export default function NavBar() {
               <Link to="/signup">
                 <button className="btn btn-outline-light mx-1">SignUp</button>
               </Link>
-            </div> :
+            </div>
+          ) : (
             <div>
               <button className="btn btn-outline-light mx-1" onClick={handleLogOut}>Log Out</button>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
     </nav>
