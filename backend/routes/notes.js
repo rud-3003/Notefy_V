@@ -100,7 +100,10 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
         const notes = await Note.find(
             {
                 "$or":[
-                    {"tag":{$regex:req.params.key}}
+                    {
+                        "tag":{$regex:req.params.key},
+                        "title":{$regex:req.params.key}
+                    }
                 ]
             }
         );

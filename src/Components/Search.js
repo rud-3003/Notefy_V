@@ -8,7 +8,7 @@ export default function Search({ searchTerm, handleSearchChange, handleSearch })
                 <input
                     className="form-control me-2"
                     type="search"
-                    placeholder="Search for tags"
+                    placeholder="Search for Title or Tags"
                     aria-label="Search"
                     value={searchTerm}
                     onChange={handleSearchChange}
