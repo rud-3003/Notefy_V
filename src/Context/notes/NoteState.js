@@ -33,6 +33,20 @@ const NoteState = (props) => {
     setNotes(json);
   }
 
+  // Get a single note
+  const getNote = async (id) => {
+    const response = await fetch(`${host}/api/notes/note/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "auth-token": localStorage.getItem('token')
+        },
+    });
+    const json = await response.json();
+    return json; // Return the fetched note
+}
+
+
   // Add a Note
   const addNote = async (title, description, tag, myFile) => {
     const response = await fetch(`${host}/api/notes/addnote`, {
@@ -88,7 +102,7 @@ const NoteState = (props) => {
   }
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, searchNotes }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, searchNotes, getNote }}>
       {props.children}
     </NoteContext.Provider>
   );

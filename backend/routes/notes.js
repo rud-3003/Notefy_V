@@ -101,8 +101,7 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
             {
                 "$or":[
                     {
-                        "tag":{$regex:req.params.key},
-                        "title":{$regex:req.params.key}
+                        "tag":{$regex:req.params.key}
                     }
                 ]
             }
@@ -113,5 +112,18 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
         res.status(500).send("Some error occured");
     }
 })
+
+router.get("/note/:id", fetchuser, async (req, res) => {
+    try {
+        let note = await Note.findOne({ user: req.user.id, _id: req.params.id });
+        if (!note) {
+            return res.status(404).send("Not Found");
+        }
+        res.json(note);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Some error occurred");
+    }
+});
 
 module.exports = router

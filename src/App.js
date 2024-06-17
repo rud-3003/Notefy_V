@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import About from "./Components/About";
 import NavBar from "./Components/NavBar";
 import AddNote from "./Components/AddNote";
+import NotePage from "./Components/NotePage";
 // import SideBar from "./Components/SideBar";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
@@ -37,6 +38,7 @@ function App() {
               <Route path="/login" element={<Login showAlert={showAlert} />} />
               <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
               <Route path="/addnote" element={<AddNote showAlert={showAlert} />} />
+              <Route path="/note/:id" element={<NotePage showAlert={showAlert} />} />
             </Routes>
           </div>
         </BrowserRouter>

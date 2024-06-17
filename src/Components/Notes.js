@@ -82,48 +82,10 @@ export default function Notes(props) {
     };
 
     const ref = useRef(null);
-    const refClose = useRef(null);
+
 
     return (
         <>
-            <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <div className="mb-3">
-                                    <label htmlFor="etitle" className="form-label">Title</label>
-                                    <input type="text" className="form-control" id="etitle" name="etitle" value={note.etitle} aria-describedby="emailHelp" onChange={onChange} minLength={5} required />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="edescription" className="form-label">Description</label>
-                                    <ReactQuill theme="snow" id="edescription" modules={modules} minLength={5} onChange={onChangeDes} value={note.edescription} />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="etag" className="form-label">Tag</label>
-                                    <input type="text" className="form-control" id="etag" name="etag" onChange={onChange} minLength={3} required value={note.etag} />
-                                </div>
-                                <div className="input-group mb-3">
-                                    <label className="input-group-text-1 mx-2 my-1">Upload</label>
-                                    <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
-                                </div>
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" ref={refClose} data-bs-dismiss="modal">Close</button>
-                            <button disabled={note.etitle.length < 5 || note.edescription.length < 5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div className="row my-3">
                 <h1>Your Notes</h1>
                 <Search
@@ -141,17 +103,4 @@ export default function Notes(props) {
             </div>
         </>
     )
-}
-
-function convertToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
 }
