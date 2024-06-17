@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import NoteContext from '../Context/notes/NoteContext';
 import NoteItem from './NoteItem';
-import ReactQuill from 'react-quill';
 import Search from './Search';
 import { useNavigate } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
@@ -58,11 +57,11 @@ export default function Notes(props) {
         setNote({ ...note, edescription: e });
     }
 
-    const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
-        const base64 = await convertToBase64(file);
-        setNote({ ...note, emyFile: base64 });
-    };
+    // const handleFileUpload = async (e) => {
+    //     const file = e.target.files[0];
+    //     const base64 = await convertToBase64(file); // Define or import convertToBase64 function
+    //     setNote({ ...note, emyFile: base64 });
+    // };
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -82,7 +81,6 @@ export default function Notes(props) {
     };
 
     const ref = useRef(null);
-
 
     return (
         <>

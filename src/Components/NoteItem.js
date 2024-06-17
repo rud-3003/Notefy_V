@@ -24,8 +24,8 @@ export default function NoteItem(props) {
                     <Link to={`/note/${note._id}`}>
                         <i className="fa-solid fa-arrow-up-right-from-square mx" style={{ color: "#5c5d60" }}></i>
                     </Link>
-                    {/* <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
-                    <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { deleteNote(note._id); props.showAlert("Deleted Successfully", "success"); }}></i> */}
+                    {/* <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i> */}
+                    <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { deleteNote(note._id); props.showAlert("Deleted Successfully", "success"); }}></i>
                 </div>
             </div>
         </div>
