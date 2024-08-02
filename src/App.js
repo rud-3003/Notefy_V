@@ -30,9 +30,9 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Alert alert={alert} />
-          <div className="container">
+          <div className="container container-ctm">
             <Routes>
-              <Route path="/" element={<Notefy />} />
+              <Route path="/" element={<Home showAlert={showAlert} />} />
               <Route path="/home" element={<Home showAlert={showAlert} />} />
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login showAlert={showAlert} />} />
@@ -40,7 +40,7 @@ function App() {
               <Route path="/addnote" element={<AddNote showAlert={showAlert} />} />
               <Route path="/note/:id" element={<NotePage showAlert={showAlert} />} />
             </Routes>
-          </div>
+            </div>
         </BrowserRouter>
       </NoteState>
     </>
