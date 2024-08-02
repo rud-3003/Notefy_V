@@ -1,12 +1,13 @@
 const connectToMongo = require('./db');
 const express = require("express")
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 var cors = require("cors")
 
 connectToMongo();
 const app = express()
-const port = 8000
+const port = process.env.PORT;
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));

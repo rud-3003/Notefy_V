@@ -1,6 +1,6 @@
 import './styles.css';
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SignUp(props) {
 
@@ -43,7 +43,7 @@ export default function SignUp(props) {
 
     return (
         <div className="containerLS">
-            <div className="formLS">
+            <div className="formLS text-center">
             <h2>Create Account</h2>
                 <form onSubmit={submit}>
                     <div className="name mx-1 my-2 d-flex align-items-center">
@@ -65,6 +65,12 @@ export default function SignUp(props) {
                     </div>
                     <div className="SignUpBtn text-center">
                         <button disabled={password!==cpassword} type="submit" className="SUbtn btn-primary">Sign Up</button>
+                    </div>
+                    <div className='text-center'>
+                        <label htmlFor="signup" className="form-label me-2 mt-3">Already have an account?</label>
+                        <Link to="/login">
+                            <button className="SUbtn btn-primary">Login</button>
+                        </Link>
                     </div>
                 </form>
             </div>

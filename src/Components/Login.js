@@ -1,6 +1,6 @@
 import './styles.css';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login(props) {
 
@@ -16,28 +16,28 @@ export default function Login(props) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({ email, password })
         });
-        const json=await response.json();
+        const json = await response.json();
         console.log(json);
         setEmail('');
         setPassword('');
-        if(json.success){
+        if (json.success) {
             // redirect
             localStorage.setItem('token', json.authToken);
-            {console.log(json.authToken)}
+            { console.log(json.authToken) }
             navigate('/home');
             props.showAlert("Logged In Successfully", "success");
         }
-        else{
+        else {
             props.showAlert("Invalid Credentials", "danger");
         }
     }
 
     return (
         <div className="containerLS">
-            <div className="formLS">
-            <h2>Log In to Continue</h2>
+            <div className="formLS text-center">
+                <h2>Log In to Continue</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="emailID mx-1 my-2 d-flex align-items-center">
                         <label htmlFor="email" className="form-label me-2">Email</label>
@@ -49,6 +49,12 @@ export default function Login(props) {
                     </div>
                     <div className="LoginBtn text-center">
                         <button type="submit" className="SUbtn btn-primary">Login</button>
+                    </div>
+                    <div className='text-center'>
+                        <label htmlFor="signup" className="form-label me-2 mt-3">Don't have an account?</label>
+                        <Link to="/signup">
+                            <button className="SUbtn btn-primary">SignUp</button>
+                        </Link>
                     </div>
                 </form>
             </div>
