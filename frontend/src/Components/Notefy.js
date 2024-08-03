@@ -1,17 +1,28 @@
-import React from 'react'
-import bg from './bg.jpg';
+import React, { useContext, useEffect } from 'react';
+import NoteContext from '../Context/notes/NoteContext';
+import NoteItem from './NoteItem';
 
 export default function Notefy() {
-  // const divStyle = {
-  //   width: '100%',
-  //   height: '85vh', // Ensures the div takes the full viewport height
-  //   backgroundImage: `url(${bg})`,
-  //   backgroundSize: 'cover', // Ensures the background image covers the entire div
-  //   backgroundPosition: 'center', // Centers the background image
-  //   backgroundRepeat: 'no-repeat' // Prevents the background image from repeating
-  // };
+  const context = useContext(NoteContext);
+  const { notes = [], getNotes } = context; // Ensure notes is always an array
+
+  useEffect(() => {
+    // Fetch all non-private notes when the component mounts
+    getNotes();
+    // eslint-disable-next-line
+  }, []);
 
   return (
-    <div></div>
-  )
+    <div className="row my-3">
+      <h1>Public Notes</h1>
+      <div className="container">
+        {notes.length === 0 && "No Public Notes to display"}
+      </div>
+      {notes.map((note) => {
+        return !note.isPrivate && (
+          <NoteItem key={note._id} note={note} />
+        );
+      })}
+    </div>
+  );
 }

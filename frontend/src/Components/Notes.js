@@ -21,30 +21,30 @@ export default function Notes(props) {
         toolbar: toolbarOptions,
     };
     const context = useContext(NoteContext);
-    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile: "" });
+    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default", emyFile: "", eprivate: false });
     const [searchTerm, setSearchTerm] = useState('');
     let navigate = useNavigate();
 
-    const { notes, getNotes, editNote, searchNotes } = context;
+    const { notes, getUserNotes, editNote, searchNotes } = context;
 
     useEffect(() => {
         async function fetchData() {
             if (searchTerm.trim() === "") {
-                await getNotes();
+                await getUserNotes();
             } else {
                 await searchNotes(searchTerm);
             }
         }
         fetchData();
-    }, [navigate, getNotes, searchNotes, searchTerm]);
+    }, [navigate, getUserNotes, searchNotes, searchTerm]);
 
     const updateNote = (currentNote) => {
         ref.current.click();
-        setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag, emyFile: currentNote.myFile });
+        setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag, emyFile: currentNote.myFile, eprivate: currentNote.isPrivate });
     }
 
     const handleClick = (e) => {
-        editNote(note.id, note.etitle, note.edescription, note.etag, note.emyFile);
+        editNote(note.id, note.etitle, note.edescription, note.etag, note.emyFile, note.eprivate);
         ref.current.click();
         props.showAlert("Updated Successfully", "success");
     }
@@ -71,7 +71,7 @@ export default function Notes(props) {
         e.preventDefault();
         try {
             if (searchTerm.trim() === "") {
-                await getNotes();
+                await getUserNotes();
             } else {
                 await searchNotes(searchTerm);
             }
@@ -92,10 +92,10 @@ export default function Notes(props) {
                     handleSearch={handleSearch}
                 />
                 <div className="container">
-                    {notes.length === 0 && "No Notes to display"}
+                    {Array.isArray(notes) && notes.length === 0 && "No Notes to display"}
                 </div>
 
-                {notes.map((note) => {
+                {Array.isArray(notes) && notes.map((note) => {
                     return <NoteItem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note} />;
                 })}
             </div>

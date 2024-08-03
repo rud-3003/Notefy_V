@@ -1,10 +1,11 @@
 import './styles.css';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Host } from "./host";
 
 export default function Login(props) {
 
-    const host = "http://localhost:8000"
+    const host = Host;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     let navigate = useNavigate();

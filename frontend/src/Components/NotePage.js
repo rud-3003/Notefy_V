@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import NoteContext from '../Context/notes/NoteContext';
 import defaultimg from './iphone_notes.png';
 import ReactQuill from 'react-quill';
@@ -26,34 +26,48 @@ const NotePage = (props) => {
         description: '',
         tag: 'default',
         myFile: '',
-        date: new Date()
+        date: new Date(),
+        isPrivate: false
     });
     let navigate = useNavigate();
 
     useEffect(() => {
         const fetchNote = async () => {
             const fetchedNote = await getNote(id);
-            setNote(fetchedNote);
+            setNote(fetchedNote || {
+                id: '',
+                title: '',
+                description: '',
+                tag: 'default',
+                myFile: '',
+                date: new Date(),
+                isPrivate: false
+            });
         };
         fetchNote();
     }, [id, getNote]);
 
     const updateNote = (currentNote) => {
-        ref.current.click();
-        setNote({
-            id: currentNote._id,
-            title: currentNote.title,
-            description: currentNote.description,
-            tag: currentNote.tag,
-            myFile: currentNote.myFile,
-            date: currentNote.date
-        });
+        if (currentNote) {
+            ref.current.click();
+            setNote({
+                id: currentNote._id,
+                title: currentNote.title,
+                description: currentNote.description,
+                tag: currentNote.tag,
+                myFile: currentNote.myFile,
+                date: currentNote.date,
+                isPrivate: currentNote.isPrivate
+            });
+        }
     };
 
     const handleClick = (e) => {
-        editNote(note.id, note.title, note.description, note.tag, note.myFile);
-        refClose.current.click();
-        props.showAlert("Updated Successfully", "success");
+        if (note.id && note.title && note.description && note.tag) {
+            editNote(note.id, note.title, note.description, note.tag, note.myFile);
+            refClose.current.click();
+            props.showAlert("Updated Successfully", "success");
+        }
     };
 
     const onChange = (e) => {
@@ -104,7 +118,7 @@ const NotePage = (props) => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="description" className="form-label">Description</label>
-                                    <ReactQuill theme="snow" id="description" modules={modules} minLength={5} onChange={onChangeDes} value={note.description} />
+                                    <ReactQuill theme="snow" id="description" modules={modules} minLength={5} onChange={onChangeDes} value={note.description || ''} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="tag" className="form-label">Tag</label>
@@ -118,7 +132,7 @@ const NotePage = (props) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" ref={refClose} data-bs-dismiss="modal">Close</button>
-                            <button disabled={note.title.length < 5 || note.description.length < 5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
+                            <button disabled={!note.title || note.title.length < 5 || !note.description || note.description.length < 5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
                         </div>
                     </div>
                 </div>
@@ -127,8 +141,9 @@ const NotePage = (props) => {
             <div className='text-center'>
                 <div>
                     <h1>{note.title}</h1>
-                    <h3><i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
-                    <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
+                    <h3>
+                        <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
+                        <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
                     </h3>
                 </div>
                 <div><img src={note.myFile === "" ? defaultimg : note.myFile} className="card-img-top" alt="..."  /></div>
@@ -136,9 +151,6 @@ const NotePage = (props) => {
                 <div>
                     <p>Tag: {note.tag}</p>
                     <p>Modified at: {new Date(note.date).toLocaleString("en-GB")}</p>
-                </div>
-                <div>
-                    
                 </div>
             </div>
         </>

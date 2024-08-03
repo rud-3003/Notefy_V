@@ -1,14 +1,28 @@
 import { useState } from "react";
 import NoteContext from "./NoteContext";
+import { Host } from "../../Components/host";
 
 const NoteState = (props) => {
-  const host = "http://localhost:8000"
+  const host = Host;
   const notesInitial = []
   const [notes, setNotes] = useState(notesInitial)
 
-  // Fetch all Notes
+  // Fetch all non-private Notes
   const getNotes = async () => {
     const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // "auth-token": localStorage.getItem('token')
+      },
+    });
+    const json = await response.json();
+    setNotes(json);
+  }
+
+  // Fetch all user Notes
+  const getUserNotes = async () => {
+    const response = await fetch(`${host}/api/notes/fetchusernotes`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +53,6 @@ const NoteState = (props) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            "auth-token": localStorage.getItem('token')
         },
     });
     const json = await response.json();
@@ -48,14 +61,14 @@ const NoteState = (props) => {
 
 
   // Add a Note
-  const addNote = async (title, description, tag, myFile) => {
+  const addNote = async (title, description, tag, myFile, isPrivate) => {
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
-      body: JSON.stringify({ title, description, tag, myFile })
+      body: JSON.stringify({ title, description, tag, myFile, isPrivate })
     });
     const note = await response.json();
     setNotes(notes.concat(note));
@@ -76,14 +89,14 @@ const NoteState = (props) => {
   }
 
   // Edit a Note
-  const editNote = async (id, title, description, tag, myFile) => {
+  const editNote = async (id, title, description, tag, myFile, isPrivate) => {
     await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
-      body: JSON.stringify({ title, description, tag, myFile })
+      body: JSON.stringify({ title, description, tag, myFile, isPrivate })
     });
 
     let newNotes = JSON.parse(JSON.stringify(notes));
@@ -95,6 +108,7 @@ const NoteState = (props) => {
         newNotes[index].description = description;
         newNotes[index].tag = tag;
         newNotes[index].myFile = myFile;
+        newNotes[index].isPrivate = isPrivate;
         break;
       }
     }
@@ -102,7 +116,7 @@ const NoteState = (props) => {
   }
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, searchNotes, getNote }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes, getUserNotes, searchNotes, getNote }}>
       {props.children}
     </NoteContext.Provider>
   );

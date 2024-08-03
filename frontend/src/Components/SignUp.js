@@ -1,11 +1,12 @@
 import './styles.css';
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Host } from "./host";
 
 export default function SignUp(props) {
 
     const navigate = useNavigate();
-    const host = "http://localhost:8000"
+    const host = Host;
     const [fname, setFname] = useState('');
     const [lname, setLname] = useState('');
     const [email, setEmail] = useState('');

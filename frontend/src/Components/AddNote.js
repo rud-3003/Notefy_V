@@ -20,12 +20,12 @@ export default function AddNote(props) {
 
     const context = useContext(NoteContext);
     const { addNote } = context;
-    const [note, setNote] = useState({ title: "", description: "", tag: "default", myFile: "" });
+    const [note, setNote] = useState({ title: "", description: "", tag: "default", myFile: "", isPrivate: false });
 
     const handleClick = (e) => {
         e.preventDefault();
-        addNote(note.title, note.description, note.tag, note.myFile);
-        setNote({ title: "", description: "", tag: "", myFile: "" });
+        addNote(note.title, note.description, note.tag, note.myFile, note.isPrivate);
+        setNote({ title: "", description: "", tag: "", myFile: "", isPrivate: false });
         props.showAlert("Added Successfully", "success");
     }
 
@@ -35,6 +35,10 @@ export default function AddNote(props) {
 
     const onChangeDes = (e) => {
         setNote({ ...note, description: e });
+    }
+
+    const onChangePrivate = (e) => {
+        setNote({ ...note, isPrivate: !e});
     }
 
     const handleFileUpload = async (e) => {
@@ -69,6 +73,10 @@ export default function AddNote(props) {
                 <div className="input-group mb-3">
                     <label className="input-group-text mx-2 my-1" htmlFor="inputGroupFile02">Upload</label>
                     <input type="file" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
+                </div>
+                <div className="form-check form-switch mt-3">
+                    <label className="form-label">Private: </label>
+                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="isPrivate" onChange={onChangePrivate} value={note.isPrivate}></input>
                 </div>
                 <button disabled={note.title.length < 5 || note.description.length < 5} type="submit" className="btn btn-primary">Add Note</button>
             </form>

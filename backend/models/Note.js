@@ -24,6 +24,10 @@ const NotesSchema = new Schema({
     },
     myFile:{
         type: String
+    },
+    isPrivate:{
+        type:Boolean,
+        required:true
     }
 });
 

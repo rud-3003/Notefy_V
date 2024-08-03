@@ -32,7 +32,7 @@ function App() {
           <Alert alert={alert} />
           <div className="container container-ctm">
             <Routes>
-              <Route path="/" element={<Home showAlert={showAlert} />} />
+              <Route path="/" element={<Notefy />} />
               <Route path="/home" element={<Home showAlert={showAlert} />} />
               <Route path="/about" element={<About />} />
               <Route path="/login" element={<Login showAlert={showAlert} />} />

@@ -4,16 +4,27 @@ var fetchuser = require('../middleware/fetchuser');
 const Note = require("../models/Note");
 const { body, validationResult } = require('express-validator');
 
+// Route 0
+// Get all notes by all users
+router.get("/fetchallnotes", async (req, res) => {
+    try {
+        const notes = await Note.find({ "isPrivate": false });
+        res.json(notes);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: "Some error occurred" });
+    }
+})
 
 // Route 1
 // Get all the notes using GET: "/api/notes/"
-router.get("/fetchallnotes", fetchuser, async (req, res) => {
+router.get("/fetchusernotes", fetchuser, async (req, res) => {
     try {
         const notes = await Note.find({ user: req.user.id });
         res.json(notes);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occured");
+        res.status(500).json({ error: "Some error occurred" });
     }
 })
 
@@ -24,7 +35,7 @@ router.post("/addnote", fetchuser, [
     body('description', 'Description must be atleast 5 characters').isLength({ min: 5 }),
 ], async (req, res) => {
     try {
-        const { title, description, tag, myFile } = req.body;
+        const { title, description, tag, myFile, isPrivate } = req.body;
         //If there are errors, return Bad request and the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -32,20 +43,20 @@ router.post("/addnote", fetchuser, [
         }
 
         const note = new Note({
-            title, description, tag, myFile, date:Date(), user: req.user.id
+            title, description, tag, myFile, date: Date(), user: req.user.id, isPrivate
         })
         const savedNote = await note.save();
         res.json(savedNote);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occured");
+        res.status(500).json({ error: "Some error occurred" });
     }
 })
 
 // Route 3
 // Update existing node using PUT "/api/notes/updatenote"
 router.put("/updatenote/:id", fetchuser, async (req, res) => {
-    const { title, description, tag, myFile } = req.body;
+    const { title, description, tag, myFile, isPrivate } = req.body;
 
     try {
         // Create a new Note Object
@@ -55,20 +66,21 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
         if (description) { newNote.description = description };
         if (tag) { newNote.tag = tag };
         if (myFile) { newNote.myFile = myFile };
+        if (isPrivate) { newNote.isPrivate = isPrivate };
 
         // Find the node to be updated and update it
         let note = await Note.findById(req.params.id);
-        if (!note) { return res.status(404).send("Not Found"); }
+        if (!note) { return res.status(404).json({ error: "Not Found" }); }
 
         if (note.user.toString() !== req.user.id) {
-            return res.status(401).send("Not Allowed");
+            return res.status(401).json({ error: "Not Allowed" });
         }
 
         note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
         res.json({ note });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occured");
+        res.status(500).json({ error: "Some error occurred" });
     }
 })
 
@@ -78,18 +90,18 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     try {
         // Find the node to be deleted and delete it
         let note = await Note.findById(req.params.id);
-        if (!note) { return res.status(404).send("Not Found"); }
+        if (!note) { return res.status(404).json({ error: "Not Found" }); }
 
         // Allow deletion if only user owns the note
         if (note.user.toString() !== req.user.id) {
-            return res.status(401).send("Not Allowed");
+            return res.status(401).json({ error: "Not Allowed" });
         }
 
         note = await Note.findByIdAndDelete(req.params.id);
         res.json({ "Success": "Note has been deleted" });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occured");
+        res.status(500).json({ error: "Some error occurred" });
     }
 })
 
@@ -99,9 +111,9 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
     try {
         const notes = await Note.find(
             {
-                "$or":[
+                "$or": [
                     {
-                        "tag":{$regex:req.params.key}
+                        "tag": { $regex: req.params.key }
                     }
                 ]
             }
@@ -109,21 +121,21 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
         res.json(notes);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occured");
+        res.status(500).json({ error: "Some error occurred" });
     }
 })
 
-router.get("/note/:id", fetchuser, async (req, res) => {
+router.get("/note/:id", async (req, res) => {
     try {
-        let note = await Note.findOne({ user: req.user.id, _id: req.params.id });
+        let note = await Note.findOne({ _id: req.params.id });
         if (!note) {
-            return res.status(404).send("Not Found");
+            return res.status(404).json({ error: "Not Found" });
         }
         res.json(note);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Some error occurred");
+        res.status(500).json({ error: "Some error occurred" });
     }
 });
 
-module.exports = router
+module.exports = router;
