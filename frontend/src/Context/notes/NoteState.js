@@ -53,6 +53,7 @@ const NoteState = (props) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            "auth-token": localStorage.getItem('token')
         },
     });
     const json = await response.json();

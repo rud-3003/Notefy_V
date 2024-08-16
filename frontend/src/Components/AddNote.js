@@ -8,8 +8,8 @@ export default function AddNote(props) {
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
         ['link', 'formula'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         ['clean']
     ];
@@ -38,8 +38,9 @@ export default function AddNote(props) {
     }
 
     const onChangePrivate = (e) => {
-        setNote({ ...note, isPrivate: !e});
-    }
+        setNote({ ...note, isPrivate: e.target.checked });
+    };
+
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
@@ -76,7 +77,7 @@ export default function AddNote(props) {
                 </div>
                 <div className="form-check form-switch mt-3">
                     <label className="form-label">Private: </label>
-                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="isPrivate" onChange={onChangePrivate} value={note.isPrivate}></input>
+                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="isPrivate" onChange={onChangePrivate} checked={note.isPrivate}/>
                 </div>
                 <button disabled={note.title.length < 5 || note.description.length < 5} type="submit" className="btn btn-primary">Add Note</button>
             </form>

@@ -8,7 +8,7 @@ const { body, validationResult } = require('express-validator');
 // Get all notes by all users
 router.get("/fetchallnotes", async (req, res) => {
     try {
-        const notes = await Note.find({ "isPrivate": false });
+        const notes = await Note.find({ isPrivate: false });
         res.json(notes);
     } catch (error) {
         console.error(error.message);

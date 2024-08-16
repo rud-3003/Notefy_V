@@ -64,7 +64,7 @@ const NotePage = (props) => {
 
     const handleClick = (e) => {
         if (note.id && note.title && note.description && note.tag) {
-            editNote(note.id, note.title, note.description, note.tag, note.myFile);
+            editNote(note.id, note.title, note.description, note.tag, note.myFile, note.isPrivate);
             refClose.current.click();
             props.showAlert("Updated Successfully", "success");
         }
@@ -76,6 +76,10 @@ const NotePage = (props) => {
 
     const onChangeDes = (value) => {
         setNote({ ...note, description: value });
+    };
+
+    const onChangePrivate = (e) => {
+        setNote({ ...note, isPrivate: e.target.checked });
     };
 
     const handleFileUpload = async (e) => {
@@ -128,6 +132,10 @@ const NotePage = (props) => {
                                     <label className="input-group-text-1 mx-2 my-1">Upload</label>
                                     <input type="file" label="Image" accept=".jpeg, .png, .jpg" onChange={handleFileUpload} className="form-control" id="inputGroupFile02" />
                                 </div>
+                                <div className="form-check form-switch mt-3">
+                                    <label className="form-label">Private: </label>
+                                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="isPrivate" onChange={onChangePrivate} checked={note.isPrivate} />
+                                </div>
                             </form>
                         </div>
                         <div className="modal-footer">
@@ -146,7 +154,7 @@ const NotePage = (props) => {
                         <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
                     </h3>
                 </div>
-                <div><img src={note.myFile === "" ? defaultimg : note.myFile} className="card-img-top" alt="..."  /></div>
+                <div><img src={note.myFile === "" ? defaultimg : note.myFile} className="card-img-top" alt="..." /></div>
                 <div><div dangerouslySetInnerHTML={{ __html: note.description }} /></div>
                 <div>
                     <p>Tag: {note.tag}</p>
