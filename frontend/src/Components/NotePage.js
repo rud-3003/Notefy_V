@@ -157,7 +157,7 @@ const NotePage = (props) => {
                 <div>
                     <h1>{note.title}</h1>
                     {/* Conditionally render edit and delete icons */}
-                    {user && note.user === user.id && (
+                    {user && note.user && (note.user._id === user.id || note.user._id === user._id) && (
                         <h3>
                             <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
                             <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
