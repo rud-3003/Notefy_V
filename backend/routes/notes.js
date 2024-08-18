@@ -8,19 +8,19 @@ const { body, validationResult } = require('express-validator');
 // Get all notes by all users
 router.get("/fetchallnotes", async (req, res) => {
     try {
-        const notes = await Note.find({ isPrivate: false });
+        const notes = await Note.find({ isPrivate: false }).populate('user', 'fname lname');
         res.json(notes);
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ error: "Some error occurred" });
     }
-})
+});
 
 // Route 1
 // Get all the notes using GET: "/api/notes/"
 router.get("/fetchusernotes", fetchuser, async (req, res) => {
     try {
-        const notes = await Note.find({ user: req.user.id });
+        const notes = await Note.find({ user: req.user.id }).populate('user', 'fname lname');
         res.json(notes);
     } catch (error) {
         console.error(error.message);
@@ -61,28 +61,30 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     try {
         // Create a new Note Object
         const newNote = {};
-        if (title) { newNote.date = Date() };
-        if (title) { newNote.title = title };
-        if (description) { newNote.description = description };
-        if (tag) { newNote.tag = tag };
-        if (myFile) { newNote.myFile = myFile };
-        if (isPrivate) { newNote.isPrivate = isPrivate };
+        if (title) newNote.date = Date();
+        if (title) newNote.title = title;
+        if (description) newNote.description = description;
+        if (tag) newNote.tag = tag;
+        if (myFile) newNote.myFile = myFile;
+        if (typeof isPrivate !== 'undefined') newNote.isPrivate = isPrivate; // This allows both true and false values
 
-        // Find the node to be updated and update it
+        // Find the note to be updated and update it
         let note = await Note.findById(req.params.id);
         if (!note) { return res.status(404).json({ error: "Not Found" }); }
 
+        // Ensure the user is the owner of the note
         if (note.user.toString() !== req.user.id) {
             return res.status(401).json({ error: "Not Allowed" });
         }
 
+        // Update the note
         note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
         res.json({ note });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ error: "Some error occurred" });
     }
-})
+});
 
 // Route 4
 // Delete existing note using DELETE "/api/notes/deletenote"
@@ -127,7 +129,7 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
 
 router.get("/note/:id", async (req, res) => {
     try {
-        let note = await Note.findOne({ _id: req.params.id });
+        let note = await Note.findOne({ _id: req.params.id }).populate('user', 'fname lname');
         if (!note) {
             return res.status(404).json({ error: "Not Found" });
         }

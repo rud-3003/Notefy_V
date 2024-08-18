@@ -4,6 +4,7 @@ import NoteContext from '../Context/notes/NoteContext';
 import defaultimg from './iphone_notes.png';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import AuthContext from '../Context/auth/AuthContext'; // Import your authentication context
 
 const NotePage = (props) => {
     const toolbarOptions = [
@@ -20,6 +21,9 @@ const NotePage = (props) => {
     const { id } = useParams();
     const context = useContext(NoteContext);
     const { getNote, editNote, deleteNote } = context;
+    const authContext = useContext(AuthContext); // Access authentication context
+    const { user } = authContext; // Get the logged-in user
+
     const [note, setNote] = useState({
         id: '',
         title: '',
@@ -27,7 +31,8 @@ const NotePage = (props) => {
         tag: 'default',
         myFile: '',
         date: new Date(),
-        isPrivate: false
+        isPrivate: false,
+        user: '' // Ensure you track the owner of the note
     });
     let navigate = useNavigate();
 
@@ -41,7 +46,8 @@ const NotePage = (props) => {
                 tag: 'default',
                 myFile: '',
                 date: new Date(),
-                isPrivate: false
+                isPrivate: false,
+                user: '' // Handle no user case
             });
         };
         fetchNote();
@@ -57,7 +63,8 @@ const NotePage = (props) => {
                 tag: currentNote.tag,
                 myFile: currentNote.myFile,
                 date: currentNote.date,
-                isPrivate: currentNote.isPrivate
+                isPrivate: currentNote.isPrivate,
+                user: currentNote.user // Keep track of the owner of the note
             });
         }
     };
@@ -94,7 +101,7 @@ const NotePage = (props) => {
     const handleDelete = async (id) => {
         await deleteNote(id);
         props.showAlert("Deleted Successfully", "success");
-        navigate('/home'); // Redirect to home or appropriate page after deletion
+        navigate('/home');
     };
 
     if (!note) {
@@ -149,10 +156,13 @@ const NotePage = (props) => {
             <div className='text-center'>
                 <div>
                     <h1>{note.title}</h1>
-                    <h3>
-                        <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
-                        <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
-                    </h3>
+                    {/* Conditionally render edit and delete icons */}
+                    {user && note.user === user.id && (
+                        <h3>
+                            <i className="fa-solid fa-pen-to-square mx-1" style={{ color: "#5c5d60" }} onClick={() => { updateNote(note) }}></i>
+                            <i className="fa-solid fa-trash mx-1" style={{ color: "#5c5d60" }} onClick={() => { handleDelete(note._id) }}></i>
+                        </h3>
+                    )}
                 </div>
                 <div><img src={note.myFile === "" ? defaultimg : note.myFile} className="card-img-top" alt="..." /></div>
                 <div><div dangerouslySetInnerHTML={{ __html: note.description }} /></div>

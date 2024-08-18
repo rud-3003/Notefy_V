@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NoteState from './Context/notes/NoteState';
+import AuthState from './Context/auth/AuthState';
 import Alert from './Components/Alert';
 import { useState } from 'react';
 
@@ -26,6 +27,7 @@ function App() {
   }
   return (
     <>
+      <AuthState>
       <NoteState>
         <BrowserRouter>
           <NavBar />
@@ -43,6 +45,7 @@ function App() {
             </div>
         </BrowserRouter>
       </NoteState>
+      </AuthState> 
     </>
   );
 }
