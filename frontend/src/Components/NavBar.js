@@ -1,8 +1,13 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react'; // Import useContext
+import AuthContext from '../Context/auth/AuthContext'; // Import AuthContext
 
 export default function NavBar() {
   let location = useLocation();
   let navigate = useNavigate();
+  
+  const authContext = useContext(AuthContext); // Access authentication context
+  const { user } = authContext; // Get the logged-in user details
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
@@ -19,17 +24,17 @@ export default function NavBar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} aria-current="page" to={localStorage.getItem('token') ?('/home'):('/login')}>Home</Link>
+              <Link className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} aria-current="page" to={localStorage.getItem('token') ? '/home' : '/login'}>Home</Link>
             </li>
             <li className="nav-item">
               <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about">About</Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname === "/addnote" ? "active" : ""}`} to={localStorage.getItem('token') ?('/addnote'):('/login')}>Add Note</Link>
+              <Link className={`nav-link ${location.pathname === "/addnote" ? "active" : ""}`} to={localStorage.getItem('token') ? '/addnote' : '/login'}>Add Note</Link>
             </li>
           </ul>
+
           {!localStorage.getItem('token') ? (
-            // eslint-disable-next-line
             <div className="d-flex my-1 mx-1" role="login">
               <Link to="/login">
                 <button className="btn btn-outline-light mx-1">LogIn</button>
@@ -39,7 +44,9 @@ export default function NavBar() {
               </Link>
             </div>
           ) : (
-            <div>
+            <div className="d-flex align-items-center">
+              {/* Display Hi User! if user is logged in */}
+              <span className="navbar-text text-light mx-2">Hi, {user?.fname} {user?.lname}!</span>
               <button className="btn btn-outline-light mx-1" onClick={handleLogOut}>Log Out</button>
             </div>
           )}
