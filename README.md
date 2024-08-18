@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Notefy: The Notes Application (MERN Stack)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Notefy, a web-based platform developed using the MERN stack (MongoDB, Express, React, Node.js). This application allows users to securely sign up, log in, and manage their personal notes. With the ability to add detailed notes, search for notes, and view public notes, this app offers both privacy and collaboration.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 1. User Authentication (Sign Up & Login)
+- Users can create an account via the **Sign Up** page.
+- Existing users can securely log in via the **Login** page to access their notes.
 
-### `npm start`
+![Sign Up](images/signup.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 2. Add Notes with Detailed Attributes
+- Users can add notes with the following attributes:
+  - **Title**: A concise title for the note.
+  - **Description**: A detailed description of the note.
+  - **Tags**: Tags for better categorization and searching.
+  - **Picture**: Option to upload a picture associated with the note.
+  - **Privacy Option**: Notes can be marked as private to be visible only to the creator.
+  - **Rich Text Editor**: Users can format their notes with a built-in rich text editor.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Add Notes](images/add-notes.png)
 
-### `npm test`
+### 3. Home Directory - Personal Notes
+- Upon logging in, users are directed to their home directory where they can view all their personal notes.
+- Private notes will only be displayed to their respective owners.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Home Directory](images/home-directory.png)
 
-### `npm run build`
+### 4. Public Notes Directory
+- All public notes from all users are displayed in the public directory `/`.
+- Public notes can be browsed without logging in.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Public Notes](images/public-notes.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 5. Edit Notes
+- Logged-in users can edit their notes using the rich text editor, allowing for seamless content updates.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Edit Notes](images/edit-notes.png)
 
-### `npm run eject`
+### 6. Delete Notes
+- Users can also delete their notes from both the home directory and public directory (if the note is public).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+![Delete Notes](images/delete-notes.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 7. Search Functionality
+- Users can search for notes on both the public and personal directories by:
+  - **Title**
+  - **Tags**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![Search Notes](images/search-notes.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Technologies Used
+- **Frontend**: React.js
+- **Backend**: Node.js with Express.js
+- **Database**: MongoDB
+- **Authentication**: JSON Web Token (JWT)
+- **Security**: Used bcryptjs for encrpyting passwords.  
+- **Rich Text Editing**: Integrated using a rich text editor
 
-## Learn More
+## Installation Instructions
+1. Clone the repository.
+2. Install dependencies for both the frontend and backend:
+   ```bash
+   cd frontend
+   npm install
+   cd ../backend
+   npm install
+3. Set up environment variables in a .env file (e.g., MongoDB connection string, JWT secret, etc.).
+4. Start the servers:
+   ```bash
+   cd backend
+   npm start
+   cd ../frontend
+   npm start
+5. The application should be accessible at http://localhost:3000 for the frontend and http://localhost:5000 for the backend.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Future Enhancements
+   Note-sharing with specific users.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+   This project is open-source and available under the MIT License.
