@@ -55,7 +55,7 @@ Welcome to the Notes Application, a web-based platform developed using the MERN 
 - **Backend**: Node.js with Express.js
 - **Database**: MongoDB
 - **Authentication**: JSON Web Token (JWT)
-- **File Uploads**: Multer for handling image uploads
+- **Security**: Used bcryptjs for encrpyting passwords.  
 - **Rich Text Editing**: Integrated using a rich text editor
 
 ## Installation Instructions
