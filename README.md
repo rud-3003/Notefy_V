@@ -9,8 +9,21 @@ Welcome to the Notefy, a web-based platform developed using the MERN stack (Mong
 - Existing users can securely log in via the **Login** page to access their notes.
 
 ![Sign Up](images/signup.png)
+![Log In](images/login.png)
 
-### 2. Add Notes with Detailed Attributes
+### 2. Home Directory - Personal Notes
+- Upon logging in, users are directed to their home directory where they can view all their personal notes.
+- Private notes will only be displayed to their respective owners.
+
+![Home Directory](images/home-directory.png)
+
+### 3. Public Notes Directory
+- All public notes from all users are displayed in the public directory `/`.
+- Public notes can be browsed without logging in.
+
+![Public Notes](images/public-notes.png)
+
+### 4. Add Notes with Detailed Attributes
 - Users can add notes with the following attributes:
   - **Title**: A concise title for the note.
   - **Description**: A detailed description of the note.
@@ -21,29 +34,22 @@ Welcome to the Notefy, a web-based platform developed using the MERN stack (Mong
 
 ![Add Notes](images/add-notes.png)
 
-### 3. Home Directory - Personal Notes
-- Upon logging in, users are directed to their home directory where they can view all their personal notes.
-- Private notes will only be displayed to their respective owners.
+### 5. View Individual Note
+- All Notes can be viewed in detailed format by going to their links.
 
-![Home Directory](images/home-directory.png)
+![Note Page](images/note-page.png)
 
-### 4. Public Notes Directory
-- All public notes from all users are displayed in the public directory `/`.
-- Public notes can be browsed without logging in.
-
-![Public Notes](images/public-notes.png)
-
-### 5. Edit Notes
+### 6. Edit Notes
 - Logged-in users can edit their notes using the rich text editor, allowing for seamless content updates.
 
 ![Edit Notes](images/edit-notes.png)
 
-### 6. Delete Notes
+### 7. Delete Notes
 - Users can also delete their notes from both the home directory and public directory (if the note is public).
 
 ![Delete Notes](images/delete-notes.png)
 
-### 7. Search Functionality
+### 8. Search Functionality
 - Users can search for notes on both the public and personal directories by:
   - **Title**
   - **Tags**
@@ -77,6 +83,8 @@ Welcome to the Notefy, a web-based platform developed using the MERN stack (Mong
 
 ## Future Enhancements
    Note-sharing with specific users.
+   User Profile Pages
+   Search Users
 
 ## License
    This project is open-source and available under the MIT License.
