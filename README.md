@@ -1,6 +1,6 @@
-# Notes Application (MERN Stack)
+# Notefy: The Notes Application (MERN Stack)
 
-Welcome to the Notes Application, a web-based platform developed using the MERN stack (MongoDB, Express, React, Node.js). This application allows users to securely sign up, log in, and manage their personal notes. With the ability to add detailed notes, search for notes, and view public notes, this app offers both privacy and collaboration.
+Welcome to the Notefy, a web-based platform developed using the MERN stack (MongoDB, Express, React, Node.js). This application allows users to securely sign up, log in, and manage their personal notes. With the ability to add detailed notes, search for notes, and view public notes, this app offers both privacy and collaboration.
 
 ## Features
 
