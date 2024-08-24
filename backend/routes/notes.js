@@ -115,11 +115,14 @@ router.get("/searchnotes/:key", fetchuser, async (req, res) => {
             {
                 "$or": [
                     {
-                        "tag": { $regex: req.params.key }
+                        "tag": { $regex: req.params.key, $options: 'i' }
+                    },
+                    {
+                        "title": { $regex: req.params.key, $options: 'i' }
                     }
                 ]
             }
-        );
+        ).populate('user', 'fname lname');
         res.json(notes);
     } catch (error) {
         console.error(error.message);

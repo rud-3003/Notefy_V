@@ -1,5 +1,4 @@
 import React from 'react';
-import notefy from './about-image.jpg';
 
 export default function About() {
     return (
