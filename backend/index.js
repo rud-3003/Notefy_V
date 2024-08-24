@@ -12,8 +12,8 @@ const port = process.env.PORT;
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors({
-    origin: ["https://notefy-v.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: "https://notefy-v.vercel.app",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
