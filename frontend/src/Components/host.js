@@ -1,2 +1,2 @@
-const Host= "http://localhost:8000";
+const Host= "https://notefy-v.vercel.app/";
 export { Host };
