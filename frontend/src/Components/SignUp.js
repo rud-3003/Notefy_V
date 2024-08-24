@@ -22,6 +22,7 @@ export default function SignUp(props) {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({fname, lname, email, password})
         });
         const json=await response.json();

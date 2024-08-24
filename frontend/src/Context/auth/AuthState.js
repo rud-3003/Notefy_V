@@ -15,6 +15,7 @@ const AuthState = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
     const json = await response.json();
@@ -35,6 +36,7 @@ const AuthState = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify({ fname, lname, email, password }),
     });
     const json = await response.json();
@@ -69,6 +71,7 @@ const AuthState = (props) => {
         "Content-Type": "application/json",
         "auth-token": token,
       },
+      credentials: 'include',
     });
     const userData = await response.json();
     setUser(userData);

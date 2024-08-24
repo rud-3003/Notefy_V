@@ -19,6 +19,7 @@ export default function Login(props) {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
         });
         const json = await response.json();

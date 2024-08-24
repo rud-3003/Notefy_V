@@ -15,6 +15,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         // "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
     });
     const json = await response.json();
     setNotes(json);
@@ -28,6 +29,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
     });
     const json = await response.json();
     setNotes(json);
@@ -41,6 +43,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
     });
     const json = await response.json();
     console.log('Search results:', json); // Debugging statement
@@ -55,6 +58,7 @@ const NoteState = (props) => {
             'Content-Type': 'application/json',
             "auth-token": localStorage.getItem('token')
         },
+        credentials: 'include',
     });
     const json = await response.json();
     return json; // Return the fetched note
@@ -69,6 +73,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
       body: JSON.stringify({ title, description, tag, myFile, isPrivate })
     });
     const note = await response.json();
@@ -83,6 +88,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
     });
 
     const newNotes = notes.filter((note) => note._id !== id);
@@ -97,6 +103,7 @@ const NoteState = (props) => {
         'Content-Type': 'application/json',
         "auth-token": localStorage.getItem('token')
       },
+      credentials: 'include',
       body: JSON.stringify({ title, description, tag, myFile, isPrivate })
     });
 
