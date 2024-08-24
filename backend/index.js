@@ -13,7 +13,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors(
     {
-        origin: ["https://notefy_V.vercel.app"],
+        origin: ["https://notefy_v.vercel.app"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
