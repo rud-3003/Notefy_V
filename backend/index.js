@@ -15,7 +15,6 @@ app.use(cors(
     {
         origin: ["https://notefy_v.vercel.app"],
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
     }
 ));
 app.use(express.json())
