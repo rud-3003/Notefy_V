@@ -15,9 +15,10 @@ app.use(cors({
     origin: "https://notefy-v.vercel.app",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'X-Requested-With', 'Accept', 'Accept-Version', 'Content-Length', 'Content-MD5', 'Date', 'X-Api-Version'],
 }));
-app.options('*', cors());
+
+app.options('/api/*', cors());
 app.use(express.json())
 
 //Available Routes
