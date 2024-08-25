@@ -18,7 +18,15 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'X-Requested-With', 'Accept', 'Accept-Version', 'Content-Length', 'Content-MD5', 'Date', 'X-Api-Version'],
 }));
 
-app.options('/api/*', cors());
+app.options('*', cors());
+app.options('/api/*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://notefy-v.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.status(200).end();
+});
+
 app.use(express.json())
 
 //Available Routes
