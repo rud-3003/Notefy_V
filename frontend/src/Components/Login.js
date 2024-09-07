@@ -6,7 +6,7 @@ import aboutImage from './about-image.jpg'; // Import the image
 
 export default function Login(props) {
 
-    const host = process.env.HOST;
+    const host = process.env.HOST || "http://localhost:8000";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showImage, setShowImage] = useState(false); // State to control image display

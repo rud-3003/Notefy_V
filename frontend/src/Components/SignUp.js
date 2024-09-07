@@ -6,7 +6,7 @@ import { Host } from "./host";
 export default function SignUp(props) {
 
     const navigate = useNavigate();
-    const host = process.env.HOST;
+    const host = process.env.HOST || "http://localhost:8000";
     const [fname, setFname] = useState('');
     const [lname, setLname] = useState('');
     const [email, setEmail] = useState('');

@@ -8,17 +8,30 @@ const connectToMongo = require('./db.js');
 connectToMongo();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 // Body parser middleware to handle large payloads
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-// CORS Middleware Setup
+// Dynamic CORS Middleware Setup
+const allowedOrigins = [
+    'http://localhost:3000',              // Local development frontend
+    'https://notefy-v.vercel.app'          // Production frontend on Vercel
+];
+
 app.use(cors({
-    origin: "https://notefy-v.vercel.app",  // Frontend URL
-    methods: "GET,POST,PUT,DELETE,OPTIONS", // Allowed HTTP methods
-    credentials: true,                      // Include credentials in requests
+    origin: function (origin, callback) {
+        // Allow requests with no origin (e.g., mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    credentials: true,
     allowedHeaders: [
         'Content-Type', 'Authorization', 'X-CSRF-Token', 
         'X-Requested-With', 'Accept', 'Accept-Version', 

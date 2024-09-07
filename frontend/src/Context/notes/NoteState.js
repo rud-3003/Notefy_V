@@ -3,7 +3,7 @@ import NoteContext from "./NoteContext";
 import { Host } from "../../Components/host";
 
 const NoteState = (props) => {
-  const host = process.env.HOST;
+  const host = process.env.HOST || "http://localhost:8000";
   const notesInitial = []
   const [notes, setNotes] = useState(notesInitial)
 
