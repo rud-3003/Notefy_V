@@ -1,4 +1,4 @@
-const connectToMongo = require('./db');
+const connectToMongo = require('./db.js');
 const express = require("express")
 const bodyParser = require('body-parser');
 require('dotenv').config();

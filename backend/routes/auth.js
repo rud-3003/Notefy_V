@@ -12,7 +12,7 @@ const JWT_SECRET = process.env.SECRET_KEY;
 //Create a User using: POST "/api/auth/createuser". Doesn't require Auth
 router.post("/createuser", [
     body('fname', 'Enter a valid Name').isLength({ min: 3 }),
-    body('lname', 'Enter a valid Name').isLength({ min: 3 }),
+    body('lname', 'Enter a valid Name').isLength({ min: 2 }),
     body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
     body('email', 'Enter a valid Email Address').isEmail(),
 ], async (req, res) => {
