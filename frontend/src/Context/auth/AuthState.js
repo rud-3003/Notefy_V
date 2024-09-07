@@ -3,7 +3,7 @@ import AuthContext from "./AuthContext";
 import { Host } from "../../Components/host"; // Use your host URL
 
 const AuthState = (props) => {
-  const host = Host;
+  const host = process.env.HOST;
   const [authToken, setAuthToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
