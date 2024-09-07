@@ -35,7 +35,7 @@ app.use(cors({
     allowedHeaders: [
         'Content-Type', 'Authorization', 'X-CSRF-Token', 
         'X-Requested-With', 'Accept', 'Accept-Version', 
-        'Content-Length', 'Content-MD5', 'Date', 'X-Api-Version'
+        'Content-Length', 'Content-MD5', 'Date', 'X-Api-Version', 'auth-token'
     ]
 }));
 
